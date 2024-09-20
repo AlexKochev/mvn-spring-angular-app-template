@@ -47,7 +47,7 @@ web-ui/!.vscode/extensions.json
 web-ui/.history/*
 
 # Miscellaneous
-web-ui//.angular/cache
+web-ui/.angular/cache/
 web-ui/.sass-cache/
 /connect.lock
 /coverage
