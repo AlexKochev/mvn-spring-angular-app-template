@@ -11,7 +11,6 @@
 
   <artifactId>web-ui</artifactId>
   <name>web-ui</name>
-  <packaging>jar</packaging>
 
   <build>
     <plugins>
