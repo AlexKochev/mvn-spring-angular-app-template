@@ -1,8 +1,23 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+application/HELP.md
+application/target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+application/.apt_generated
+application/.classpath
+application/.factorypath
+application/.project
+application/.settings
+application/.springBeans
+.sts4-cache
+
 # Compiled output
-*/dist
-*/tmp
+web-ui/dist/
+web-ui/tmp/
 /out-tsc
 /bazel-out
 
@@ -19,9 +34,12 @@ web-ui/yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+*.iws
+*.iml
+*.ipr
 
 # Visual Studio Code
-web-ui/.vscode/*
+*/.vscode/*
 web-ui/!.vscode/settings.json
 web-ui/!.vscode/tasks.json
 web-ui/!.vscode/launch.json
@@ -40,3 +58,13 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
