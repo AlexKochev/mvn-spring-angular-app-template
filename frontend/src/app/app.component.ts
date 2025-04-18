@@ -7,7 +7,6 @@ import {GreetingsService} from "./greetings.service";
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  standalone: true,
   styleUrl: './app.component.scss'
 })
 export class AppComponent {

@@ -1,19 +1,32 @@
-FROM node:20.10.0 as build
 
+#RUN npm ci
+#RUN npm install -g @angular/cli
+#COPY . .
+#RUN ng build --configuration=production
+#FROM nginx:latest
+#COPY --from=build app/dist/frontend/browser /usr/share/nginx/html
+#EXPOSE 80
+
+# Dev stage
+FROM node:22 AS dev
 WORKDIR /app
-
 COPY package*.json ./
-
-RUN npm ci
-
+RUN npm install
 RUN npm install -g @angular/cli
+COPY src/ src/
+COPY *.json .
+COPY server.ts .
+RUN ng build
+EXPOSE 4200
+CMD ["ng", "s"]
 
+# Prod build stage (optional)
+FROM node:22 AS build
+WORKDIR /app
 COPY . .
+RUN npm install && npm run build --prod
 
-RUN ng build --configuration=production
-
-FROM nginx:latest
-
-COPY --from=build app/dist/frontend/browser /usr/share/nginx/html
-
+# Production stage (optional, if you want to serve via Nginx)
+FROM nginx:alpine AS prod
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
 EXPOSE 80

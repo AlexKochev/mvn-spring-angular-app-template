@@ -14,20 +14,20 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: ../frontend
-      target: dev
-    container_name: angular-frontend
+    #build:
+    #  context: ../frontend
+    #  target: dev
+    image: angular-frontend:dev
+    container_name: angular-frontend-dev
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ../frontend/src:/app/src
     ports:
       - "4200:4200"
     command: npm run start
     networks:
       - app-network
-    depends_on:
-      - backend
+#    depends_on:
+#      - backend
 
 networks:
   app-network:
