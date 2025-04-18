@@ -4,18 +4,28 @@ services:
   backend:
     build:
       context: ./backend
+      target: dev
     container_name: java-backend
+    volumes:
+      - ./backend:/app
+      - ~/.m2:/root/.m2         # Optional: speed up builds using host Maven cache
     ports:
       - "8080:8080"
+    command: mvn spring-boot:run
     networks:
       - app-network
 
   frontend:
     build:
       context: ./frontend
+      target: dev
     container_name: angular-frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
-      - "4200:80"
+      - "4200:4200"
+    command: npm run start
     networks:
       - app-network
     depends_on:

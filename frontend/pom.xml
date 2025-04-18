@@ -56,7 +56,7 @@
             </configuration>
           </execution>
 
-          <!-- 2. Copy Angular build to Spring Boot static folder -->
+          <!-- 3. Copy Angular build to Spring Boot static folder -->
           <execution>
             <id>copy-dist-to-static</id>
             <phase>process-resources</phase>
@@ -75,6 +75,7 @@
           </execution>
         </executions>
       </plugin>
+
     </plugins>
   </build>
 
