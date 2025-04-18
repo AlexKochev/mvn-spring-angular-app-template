@@ -1,0 +1,62 @@
+name: Deploy to AWS
+
+on:
+    workflow_dispatch: 
+ # push:
+ #  branches: [ main ]
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout Code
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    # 🔧 Configure AWS credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    ###############################
+    # FRONTEND — Angular → S3
+    ###############################
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies & build Angular
+      working-directory: frontend
+      run: |
+        npm ci
+        npm run build --prod
+
+    - name: Upload Angular app to S3
+      run: |
+        aws s3 sync frontend/dist/your-angular-app s3://$S3_BUCKET --delete
+      env:
+        S3_BUCKET: ${{ env.S3_BUCKET }}
+
+    ###############################
+    # BACKEND — Java → ECR
+    ###############################
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build and push Docker image
+      working-directory: backend
+      run: |
+        IMAGE_TAG=${ECR_REPOSITORY}:latest
+        docker build -t $IMAGE_TAG .
+        docker push $IMAGE_TAG
