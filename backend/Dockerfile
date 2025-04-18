@@ -1,13 +1,13 @@
 # Dev stage
 FROM maven:3.9.6 AS dev
-WORKDIR /mvn-spring-angular-app
+WORKDIR /app
 # Copy parent POM
-COPY pom.xml .
-COPY frontend .
+COPY ../pom.xml .
+#COPY frontend .
 # Copy backend module
-COPY backend/src ./backend
-COPY backend/pom.xml ./backend/.
-WORKDIR /mvn-spring-angular-app/backend
+COPY src/ backend/src/
+COPY pom.xml backend/.
+WORKDIR /app/backend
 RUN mvn dependency:go-offline
 EXPOSE 8080
 CMD ["mvn", "spring-boot:run"]
