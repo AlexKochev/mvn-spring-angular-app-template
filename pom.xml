@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kochev</groupId>
-    <artifactId>mvn-multi-module-project</artifactId>
+    <artifactId>mvn-spring-angular-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>application</module>
-        <module>web-ui</module>
+        <module>backend</module>
+        <module>frontend</module>
     </modules>
 
     <properties>

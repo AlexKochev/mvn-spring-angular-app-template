@@ -1,3 +1,5 @@
-# Basic Multi Module Maven Project
+# Maven Multi Module Java Spring and Angular template
 
-sudo chmod ugo+rwx web-ui
+## A basic project to give your development a quick start
+
+## Project Structure:

@@ -5,15 +5,16 @@
 
   <parent>
     <groupId>com.kochev</groupId>
-    <artifactId>mvn-multi-module-project</artifactId>
+    <artifactId>mvn-spring-angular-app</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>web-ui</artifactId>
-  <name>web-ui</name>
+  <artifactId>frontend</artifactId>
+  <name>frontend</name>
 
   <build>
     <plugins>
+      <!-- 1. Standard clean plugin that deletes files during the mvn clean phase -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
@@ -31,27 +32,46 @@
           </filesets>
         </configuration>
       </plugin>
+
+      <!-- 2. Build Angular App -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.4.1</version>
         <executions>
           <execution>
-            <id>angular-cli build</id>
+            <id>angular-cli-build</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
             <configuration>
               <workingDirectory>.</workingDirectory>
               <executable>ng</executable>
               <arguments>
                 <argument>build</argument>
-<!--                <argument>&#45;&#45;prod</argument>-->
-<!--                <argument>&#45;&#45;base-href</argument>-->
-<!--                <argument>"/web/"</argument>-->
+                <argument>--configuration</argument>
+                <argument>production</argument>
               </arguments>
             </configuration>
-            <phase>generate-resources</phase>
+          </execution>
+
+          <!-- 2. Copy Angular build to Spring Boot static folder -->
+          <execution>
+            <id>copy-dist-to-static</id>
+            <phase>process-resources</phase>
             <goals>
               <goal>exec</goal>
             </goals>
+            <configuration>
+              <executable>cp</executable>
+              <workingDirectory>.</workingDirectory>
+              <arguments>
+                <argument>-r</argument>
+                <argument>dist/frontend/.</argument>
+                <argument>../backend/src/main/resources/static/</argument>
+              </arguments>
+            </configuration>
           </execution>
         </executions>
       </plugin>

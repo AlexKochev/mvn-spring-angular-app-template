@@ -16,16 +16,16 @@ application/.springBeans
 .sts4-cache
 
 # Compiled output
-web-ui/dist/
-web-ui/tmp/
-web-ui/target/
+frontend/dist/
+frontend/tmp/
+frontend/target/
 /out-tsc
 /bazel-out
 
 # Node
-web-ui/node_modules
-web-ui/npm-debug.log
-web-ui/yarn-error.log
+frontend/node_modules
+frontend/npm-debug.log
+frontend/yarn-error.log
 
 # IDEs and editors
 .idea/
@@ -41,15 +41,15 @@ web-ui/yarn-error.log
 
 # Visual Studio Code
 */.vscode/*
-web-ui/!.vscode/settings.json
-web-ui/!.vscode/tasks.json
-web-ui/!.vscode/launch.json
-web-ui/!.vscode/extensions.json
-web-ui/.history/*
+frontend/!.vscode/settings.json
+frontend/!.vscode/tasks.json
+frontend/!.vscode/launch.json
+frontend/!.vscode/extensions.json
+frontend/.history/*
 
 # Miscellaneous
-web-ui/.angular/cache/
-web-ui/.sass-cache/
+frontend/.angular/cache/
+frontend/.sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
