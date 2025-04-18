@@ -1,0 +1,94 @@
+name: CI Build and Test
+
+on:
+  workflow_dispatch: 
+  #push:
+    #branches: [ main ]
+  #pull_request:
+
+jobs:
+  backend-tests:
+    name: Java Backend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Maven tests
+        working-directory: backend
+        run: mvn test
+
+  frontend-lint:
+    name: Angular Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run Linter
+        working-directory: frontend
+        run: npm run lint
+
+  frontend-tests:
+    name: Angular Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run Unit Tests
+        working-directory: frontend
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+  build-verification:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-lint, frontend-tests]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Backend build
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build Backend
+        working-directory: backend
+        run: mvn clean package -DskipTests
+
+      # Frontend build
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Build Frontend
+        working-directory: frontend
+        run: npm run build -- --prod
