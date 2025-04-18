@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
   backend:
     build:
-      context: ./backend
+      context: ../backend
       target: dev
     container_name: java-backend
     volumes:
@@ -17,7 +15,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ../frontend
       target: dev
     container_name: angular-frontend
     volumes:
