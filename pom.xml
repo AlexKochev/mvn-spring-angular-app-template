@@ -15,7 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot-starter.version>3.3.3</spring-boot-starter.version>
+        <spring-boot-starter.version>3.4.4</spring-boot-starter.version>
         <build.number>1.0-SNAPSHOT</build.number>
     </properties>
 </project>

@@ -18,6 +18,7 @@ application/.springBeans
 # Compiled output
 web-ui/dist/
 web-ui/tmp/
+web-ui/target/
 /out-tsc
 /bazel-out
 
