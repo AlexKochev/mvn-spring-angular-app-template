@@ -1,4 +1,4 @@
-package com.kochev.application;
+package com.kochev.application.controllers;
 
 import java.util.concurrent.atomic.AtomicLong;
 

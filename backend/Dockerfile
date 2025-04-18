@@ -8,7 +8,6 @@ COPY frontend .
 COPY backend/src ./backend
 COPY backend/pom.xml ./backend/.
 WORKDIR /mvn-spring-angular-app/backend
-RUN mvn clean install -U
 RUN mvn dependency:go-offline
 EXPOSE 8080
 CMD ["mvn", "spring-boot:run"]

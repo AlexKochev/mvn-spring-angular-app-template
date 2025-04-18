@@ -3,3 +3,5 @@
 ## A basic project to give your development a quick start
 
 ## Project Structure:
+
+docker build -f backend/Dockerfile -t java-backend:prod  .
