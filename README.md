@@ -9,3 +9,4 @@ docker build -f backend/Dockerfile -t java-backend:prod  .
 docker build --target dev -f Dockerfile -t angular-frontend:dev  .
 
 docker build --target prod -f Dockerfile -t angular-frontend:prod  .
+

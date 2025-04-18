@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {GreetingsService} from "./greetings.service";
+import {FooterComponent} from "./footer/footer.component";
+import {NavBarComponent} from "./nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, FooterComponent, NavBarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
-  constructor(private readonly greetingsService: GreetingsService) {
+  constructor() {
   }
 
 

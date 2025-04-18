@@ -19,7 +19,7 @@ services:
     image: angular-frontend:dev
     container_name: angular-frontend-dev
     volumes:
-      - ../frontend/src:/app/src
+      - ../frontend/src/:/app/src/
     ports:
       - "4200:4200"
     command: npm run start
