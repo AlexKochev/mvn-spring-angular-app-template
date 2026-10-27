@@ -1,6 +1,6 @@
-# WebUi
+# Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
+Angular application for the template. See the [root README](../README.md) for setup and build instructions.
 
 ## Development server
 

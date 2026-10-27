@@ -16,6 +16,7 @@ application/.springBeans
 .sts4-cache
 
 # Compiled output
+backend/src/main/resources/static/
 frontend/dist/
 frontend/tmp/
 frontend/target/

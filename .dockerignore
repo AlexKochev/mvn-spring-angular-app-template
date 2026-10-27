@@ -1,0 +1,9 @@
+.git
+**/target
+**/node_modules
+frontend/dist
+frontend/.angular
+frontend/example
+backend/src/main/resources/static
+**/.idea
+**/.DS_Store

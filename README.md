@@ -1,12 +1,117 @@
-# Maven Multi Module Java Spring and Angular template
+# Spring Boot + Angular Maven Template
 
-## A basic project to give your development a quick start
+A starting point for new projects that need a **Java (Spring Boot) backend** and an **Angular frontend** in a single Maven multi-module repository. Clone it, rename it, and start adding features.
 
-## Project Structure:
+The Angular app is compiled during the Maven build and packaged into the Spring Boot jar, so the result is **one runnable jar** that serves both the REST API and the UI.
 
-docker build -f backend/Dockerfile -t java-backend:prod  .
+![Project structure](images/project-structure.png)
 
-docker build --target dev -f Dockerfile -t angular-frontend:dev  .
+## Stack
 
-docker build --target prod -f Dockerfile -t angular-frontend:prod  .
+| Layer    | Technology                                   |
+|----------|----------------------------------------------|
+| Backend  | Java 25, Spring Boot 4.1 (Spring MVC), Lombok |
+| Frontend | Angular 22, TypeScript 6.0, SCSS, SSR/prerender, Karma + Jasmine |
+| Build    | Maven (multi-module), npm / Angular CLI      |
 
+## Prerequisites
+
+- **JDK 25**
+- **Maven 3.9+**
+- **Node.js 24 LTS** (Angular 22 needs Node 22.22+ or 24.15+)
+- **Angular CLI** on your `PATH` (`npm i -g @angular/cli`). The Maven build calls `ng build` directly.
+- Chrome, only if you run the frontend unit tests
+
+## Project layout
+
+```
+.
+├── Dockerfile              Multi-stage build -> runtime image with the single jar
+├── pom.xml                 Parent POM: Java version, Spring Boot BOM, module list
+├── backend/                Spring Boot application
+│   ├── pom.xml
+│   └── src/main/java/com/kochev/application/
+│       ├── Application.java
+│       └── controllers/GreetingController.java   Sample REST endpoint
+├── frontend/               Angular application (built first)
+│   ├── pom.xml             Runs `ng build` and copies the output into the backend
+│   ├── angular.json
+│   ├── server.ts           Express SSR server (only used for `serve:ssr`)
+│   └── src/app/            Components (nav-bar, footer, ...)
+```
+
+## Running in development
+
+Run the two halves separately for fast feedback.
+
+**Backend** (http://localhost:8080):
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+Try it: `curl localhost:8080/greeting?name=Ada`
+
+**Frontend** (http://localhost:4200, live reload):
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+> The dev server does not proxy API calls to the backend yet. When you start calling the API from Angular, add a `proxy.json` mapping `/greeting` (or `/api`) to `http://localhost:8080` and pass it via `ng serve --proxy-config`.
+
+## Building a single jar
+
+From the repository root:
+
+```bash
+mvn clean package
+java -jar backend/target/backend-1.0-SNAPSHOT.jar
+```
+
+The build does this, in order:
+
+1. `frontend`: `ng build --configuration production` writes to `frontend/dist/frontend/`.
+2. `frontend`: copies `dist/frontend/browser/` into `backend/src/main/resources/static/`.
+3. `backend`: compiles, runs tests, and repackages everything as an executable jar.
+
+The module order in the root `pom.xml` matters: `frontend` is listed before `backend` so the UI is in `static/` before the jar is packaged.
+
+Notes:
+
+- `backend/src/main/resources/static/` is generated output (git-ignored, removed by `mvn clean`). Don't edit it by hand.
+- The `ng` and `cp` executables must be on the `PATH` of the machine running Maven (macOS/Linux as written).
+
+## Tests
+
+```bash
+mvn test                                         # backend
+cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
+```
+
+## Using this as a template
+
+1. Copy the repository and delete `.git`, then `git init`.
+2. Rename `com.kochev` / `mvn-spring-angular-app` in the three `pom.xml` files and move the Java package under `backend/src/main/java`.
+3. Rename the Angular project in `frontend/angular.json` and `frontend/package.json` (and the `dist/frontend` paths in `frontend/pom.xml` if you rename the project).
+4. Replace `GreetingController` and the sample components with your own.
+
+## Upgrading versions
+
+- **Java / Spring Boot / Lombok** are set as properties in the root `pom.xml` (`java.version`, `spring-boot.version`, `lombok.version`). Dependency versions come from the Spring Boot BOM, so the backend `pom.xml` mostly lists dependencies without versions.
+- **Angular**: use `ng update @angular/core @angular/cli`, one major version at a time.
+- **TypeScript** must stay within the range the current Angular version supports (Angular 22 requires `>=6.0 <6.1`).
+
+## Docker
+
+A single multi-stage `Dockerfile` at the repo root builds everything (JDK 25, Maven, Node 24, Angular CLI) and produces a small runtime image containing only the jar on a JRE:
+
+```bash
+docker build -t spring-angular-template .
+docker run --rm -p 8080:8080 spring-angular-template
+```
+
+Then open http://localhost:8080 (UI) or http://localhost:8080/greeting (API). The image runs as a non-root user.

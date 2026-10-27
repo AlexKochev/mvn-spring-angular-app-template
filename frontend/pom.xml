@@ -30,6 +30,9 @@
               </includes>
               <followSymlinks>false</followSymlinks>
             </fileset>
+            <fileset>
+              <directory>../backend/src/main/resources/static</directory>
+            </fileset>
           </filesets>
         </configuration>
       </plugin>
@@ -69,7 +72,7 @@
               <workingDirectory>.</workingDirectory>
               <arguments>
                 <argument>-r</argument>
-                <argument>dist/frontend/.</argument>
+                <argument>dist/frontend/browser/.</argument>
                 <argument>../backend/src/main/resources/static/</argument>
               </arguments>
             </configuration>
