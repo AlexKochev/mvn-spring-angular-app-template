@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    # Weekly, so dependency releases that break the template are noticed
+    - cron: "0 6 * * 1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+          cache: maven
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies and Angular CLI
+        run: |
+          npm install -g @angular/cli@22
+          npm ci --prefix frontend
+
+      - name: Frontend unit tests
+        working-directory: frontend
+        run: npx ng test --watch=false --browsers=ChromeHeadless
+
+      - name: Build and backend tests
+        run: mvn -B clean verify
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t spring-angular-template .

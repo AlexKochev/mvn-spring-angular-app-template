@@ -1,5 +1,7 @@
 # Spring Boot + Angular Maven Template
 
+[![Build](https://github.com/AlexKochev/mvn-spring-angular-app-template/actions/workflows/build.yml/badge.svg)](https://github.com/AlexKochev/mvn-spring-angular-app-template/actions/workflows/build.yml)
+
 A starting point for new projects that need a **Java (Spring Boot) backend** and an **Angular frontend** in a single Maven multi-module repository. Clone it, rename it, and start adding features.
 
 The Angular app is compiled during the Maven build and packaged into the Spring Boot jar, so the result is **one runnable jar** that serves both the REST API and the UI.
