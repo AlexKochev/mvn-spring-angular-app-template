@@ -6,8 +6,6 @@ A starting point for new projects that need a **Java (Spring Boot) backend** and
 
 The Angular app is compiled during the Maven build and packaged into the Spring Boot jar, so the result is **one runnable jar** that serves both the REST API and the UI.
 
-![Project structure](images/project-structure.png)
-
 ## Stack
 
 | Layer    | Technology                                   |
@@ -28,6 +26,7 @@ The Angular app is compiled during the Maven build and packaged into the Spring 
 
 ```
 .
+├── .github/workflows/      CI: build + tests on push/PR, plus a weekly scheduled build
 ├── Dockerfile              Multi-stage build -> runtime image with the single jar
 ├── pom.xml                 Parent POM: Java version, Spring Boot BOM, module list
 ├── backend/                Spring Boot application
@@ -100,6 +99,10 @@ cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
 2. Rename `com.kochev` / `mvn-spring-angular-app` in the three `pom.xml` files and move the Java package under `backend/src/main/java`.
 3. Rename the Angular project in `frontend/angular.json` and `frontend/package.json` (and the `dist/frontend` paths in `frontend/pom.xml` if you rename the project).
 4. Replace `GreetingController` and the sample components with your own.
+
+## Continuous integration
+
+`.github/workflows/build.yml` runs the frontend tests, `mvn clean verify` and the Docker build on every push and pull request. It also runs weekly, so a dependency release that breaks the template shows up as a failing badge rather than a surprise when you start a project.
 
 ## Upgrading versions
 
