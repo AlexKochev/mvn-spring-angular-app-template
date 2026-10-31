@@ -34,7 +34,7 @@ jobs:
         run: npx ng test --watch=false --browsers=ChromeHeadless
 
       - name: Build and backend tests
-        run: mvn -B clean verify
+        run: ./mvnw -B clean verify
 
   docker:
     runs-on: ubuntu-latest

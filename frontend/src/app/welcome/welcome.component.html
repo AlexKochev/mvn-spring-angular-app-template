@@ -32,7 +32,7 @@
 
   @if (status() === 'offline') {
     <p class="hint">
-      Start it with <code>mvn spring-boot:run</code> in <code>backend/</code>, then check again.
+      Start it with <code>./mvnw -pl backend spring-boot:run</code>, then check again.
     </p>
   }
 </section>
@@ -50,7 +50,7 @@
     </article>
     <article class="card">
       <h3>Ship it</h3>
-      <p>Run <code>mvn clean package</code> for a single jar, or <code>docker build .</code> for an image.</p>
+      <p>Run <code>./mvnw clean package</code> for a single jar, or <code>docker build .</code> for an image.</p>
     </article>
   </div>
 </section>

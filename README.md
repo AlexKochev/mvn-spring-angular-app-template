@@ -17,7 +17,7 @@ The Angular app is compiled during the Maven build and packaged into the Spring 
 ## Prerequisites
 
 - **JDK 25** (the build checks this and fails with a clear message otherwise; `.java-version` records the required version)
-- **Maven 3.9+**
+- **Maven**: nothing to install. Use the bundled Maven Wrapper (`./mvnw`), which downloads the pinned Maven version (3.9.16) on first use. A plain `mvn` 3.9+ also works, but older Maven versions print noisy warnings on JDK 25.
 - **Node.js 24 LTS** on your `PATH` (Angular 22 needs Node 22.22+ or 24.15+; older versions fail the build). With nvm: `nvm install 24 && nvm alias default 24`. No global Angular CLI is needed: the build uses the project's own copy.
 - Chrome, only if you run the frontend unit tests
 
@@ -80,8 +80,7 @@ Run the two halves separately for fast feedback.
 **Backend** (http://localhost:8080):
 
 ```bash
-cd backend
-mvn spring-boot:run
+./mvnw -pl backend spring-boot:run
 ```
 
 Try it: `curl localhost:8080/api/hello`
@@ -101,7 +100,7 @@ With both running, the welcome page at http://localhost:4200 shows a green "Back
 From the repository root:
 
 ```bash
-mvn clean package
+./mvnw clean package
 java -jar backend/target/backend-1.0-SNAPSHOT.jar
 ```
 
@@ -115,13 +114,13 @@ The module order in the root `pom.xml` matters: `frontend` is listed before `bac
 
 Notes:
 
-- `backend/src/main/resources/static/` is generated output (git-ignored, removed by `mvn clean`). Don't edit it by hand.
+- `backend/src/main/resources/static/` is generated output (git-ignored, removed by `./mvnw clean`). Don't edit it by hand.
 - The `npm`, `npx` and `cp` executables must be on the `PATH` of the machine running Maven (macOS/Linux as written).
 
 ## Tests
 
 ```bash
-mvn test                                         # backend
+./mvnw -pl backend test                          # backend
 cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
 ```
 
@@ -134,7 +133,7 @@ cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
 
 ## Continuous integration
 
-`.github/workflows/build.yml` runs the frontend tests, `mvn clean verify` and the Docker build on every push and pull request. It also runs weekly, so a dependency release that breaks the template shows up as a failing badge rather than a surprise when you start a project.
+`.github/workflows/build.yml` runs the frontend tests, `./mvnw clean verify` and the Docker build on every push and pull request. It also runs weekly, so a dependency release that breaks the template shows up as a failing badge rather than a surprise when you start a project.
 
 ## Upgrading versions
 
