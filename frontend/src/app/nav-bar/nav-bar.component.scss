@@ -1,22 +1,30 @@
-/* Style the navbar */
-#navbar {
+nav {
   position: sticky;
   top: 0;
-  overflow: hidden;
-  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.5rem;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
 }
 
-/* Navbar links */
-#navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px;
+a {
+  color: var(--muted);
   text-decoration: none;
+
+  &:hover { color: var(--text); }
 }
 
-/* Page content */
-.content {
-  padding: 16px;
+.brand {
+  color: var(--text);
+  font-weight: 700;
+
+  span { color: var(--muted); }
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
 }

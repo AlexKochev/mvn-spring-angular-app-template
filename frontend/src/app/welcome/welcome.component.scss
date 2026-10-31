@@ -1,0 +1,108 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    letter-spacing: -0.03em;
+    margin: 0.8rem 0;
+  }
+
+  .spring { color: var(--spring); }
+  .angular { color: var(--angular); }
+  .plus { color: var(--muted); margin: 0 0.2em; }
+
+  .lead {
+    color: var(--muted);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-width: 38rem;
+    margin: 0 auto;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.status {
+  --accent: var(--muted);
+  border-color: var(--accent);
+  margin-bottom: 3rem;
+
+  &.ok { --accent: var(--ok); }
+  &.bad { --accent: var(--bad); }
+
+  .status-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  button {
+    margin-left: auto;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+
+    &:hover { border-color: var(--accent); }
+  }
+
+  .message {
+    font-size: 1.2rem;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .hint {
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 0;
+
+    dt { color: var(--muted); font-size: 0.8rem; }
+    dd { margin: 0.2rem 0 0; font-weight: 600; }
+  }
+}
+
+.steps h2 {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+
+  h3 { margin-top: 0; }
+  p { color: var(--muted); line-height: 1.5; margin-bottom: 0; }
+}

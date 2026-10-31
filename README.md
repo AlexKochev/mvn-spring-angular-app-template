@@ -32,12 +32,13 @@ The Angular app is compiled during the Maven build and packaged into the Spring 
 │   ├── pom.xml
 │   └── src/main/java/com/kochev/application/
 │       ├── Application.java
-│       └── controllers/GreetingController.java   Sample REST endpoint
+│       └── controllers/HelloController.java   Sample endpoint: GET /api/hello
 ├── frontend/               Angular application (built first)
 │   ├── pom.xml             Runs `ng build` and copies the output into the backend
 │   ├── angular.json
 │   ├── server.ts           Express SSR server (only used for `serve:ssr`)
-│   └── src/app/            Components (nav-bar, footer, ...)
+│   ├── proxy.conf.json     Dev proxy: forwards /api to the backend on :8080
+│   └── src/app/            Welcome page, nav bar, footer, sample HTTP service
 ```
 
 ## Running in development
@@ -51,9 +52,9 @@ cd backend
 mvn spring-boot:run
 ```
 
-Try it: `curl localhost:8080/greeting?name=Ada`
+Try it: `curl localhost:8080/api/hello`
 
-**Frontend** (http://localhost:4200, live reload):
+**Frontend** (http://localhost:4200, live reload; `/api` calls are proxied to the backend):
 
 ```bash
 cd frontend
@@ -61,7 +62,7 @@ npm install
 npm start
 ```
 
-> The dev server does not proxy API calls to the backend yet. When you start calling the API from Angular, add a `proxy.json` mapping `/greeting` (or `/api`) to `http://localhost:8080` and pass it via `ng serve --proxy-config`.
+With both running, the welcome page at http://localhost:4200 shows a green "Backend connected" card. If the backend is down it says so instead. Keep your API routes under `/api` so the proxy (`frontend/proxy.conf.json`) picks them up.
 
 ## Building a single jar
 
@@ -97,7 +98,7 @@ cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
 1. Copy the repository and delete `.git`, then `git init`.
 2. Rename `com.kochev` / `mvn-spring-angular-app` in the three `pom.xml` files and move the Java package under `backend/src/main/java`.
 3. Rename the Angular project in `frontend/angular.json` and `frontend/package.json` (and the `dist/frontend` paths in `frontend/pom.xml` if you rename the project).
-4. Replace `GreetingController` and the sample components with your own.
+4. Replace `HelloController` and the welcome page (`frontend/src/app/welcome/`) with your own.
 
 ## Continuous integration
 
@@ -118,4 +119,4 @@ docker build -t spring-angular-template .
 docker run --rm -p 8080:8080 spring-angular-template
 ```
 
-Then open http://localhost:8080 (UI) or http://localhost:8080/greeting (API). The image runs as a non-root user.
+Then open http://localhost:8080 (UI) or http://localhost:8080/api/hello (API). The image runs as a non-root user.

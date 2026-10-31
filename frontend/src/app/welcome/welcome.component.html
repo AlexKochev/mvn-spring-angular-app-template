@@ -1,0 +1,56 @@
+<section class="hero">
+  <span class="badge">Project template</span>
+  <h1><span class="spring">Spring Boot</span> <span class="plus">+</span> <span class="angular">Angular</span></h1>
+  <p class="lead">
+    One Maven build, one runnable jar. You're looking at the Angular frontend, served by the Spring Boot backend.
+    Replace this page with your own.
+  </p>
+</section>
+
+<section class="status card" [class.ok]="status() === 'connected'" [class.bad]="status() === 'offline'">
+  <div class="status-head">
+    <span class="dot"></span>
+    @switch (status()) {
+      @case ('connected') { <strong>Backend connected</strong> }
+      @case ('offline') { <strong>Backend not reachable</strong> }
+      @default { <strong>Contacting backend…</strong> }
+    }
+    <button type="button" (click)="check()">Check again</button>
+  </div>
+
+  @if (hello(); as h) {
+    @if (status() === 'connected') {
+      <p class="message">“{{ h.message }}”</p>
+    }
+    <dl>
+      <div><dt>Angular</dt><dd>{{ angularVersion }}</dd></div>
+      <div><dt>Java</dt><dd>{{ h.javaVersion }}</dd></div>
+      <div><dt>Spring Boot</dt><dd>{{ h.springBootVersion }}</dd></div>
+      <div><dt>Server time</dt><dd>{{ h.timestamp | date: 'mediumTime' }}</dd></div>
+    </dl>
+  }
+
+  @if (status() === 'offline') {
+    <p class="hint">
+      Start it with <code>mvn spring-boot:run</code> in <code>backend/</code>, then check again.
+    </p>
+  }
+</section>
+
+<section class="steps">
+  <h2>Make it yours</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>Change this page</h3>
+      <p>Edit <code>frontend/src/app/welcome/</code> or add routes in <code>app.routes.ts</code>.</p>
+    </article>
+    <article class="card">
+      <h3>Add an endpoint</h3>
+      <p>Start from <code>HelloController.java</code> in <code>backend/</code>. Keep routes under <code>/api</code>.</p>
+    </article>
+    <article class="card">
+      <h3>Ship it</h3>
+      <p>Run <code>mvn clean package</code> for a single jar, or <code>docker build .</code> for an image.</p>
+    </article>
+  </div>
+</section>
