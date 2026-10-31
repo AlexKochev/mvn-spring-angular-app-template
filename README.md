@@ -18,8 +18,7 @@ The Angular app is compiled during the Maven build and packaged into the Spring 
 
 - **JDK 25**
 - **Maven 3.9+**
-- **Node.js 24 LTS** (Angular 22 needs Node 22.22+ or 24.15+)
-- **Angular CLI** on your `PATH` (`npm i -g @angular/cli`). The Maven build calls `ng build` directly.
+- **Node.js 24 LTS** on your `PATH` (Angular 22 needs Node 22.22+ or 24.15+; older versions fail the build). With nvm: `nvm install 24 && nvm alias default 24`. No global Angular CLI is needed: the build uses the project's own copy.
 - Chrome, only if you run the frontend unit tests
 
 ## Project layout
@@ -75,7 +74,7 @@ java -jar backend/target/backend-1.0-SNAPSHOT.jar
 
 The build does this, in order:
 
-1. `frontend`: `ng build --configuration production` writes to `frontend/dist/frontend/`.
+1. `frontend`: `npm ci`, then `ng build --configuration production` writes to `frontend/dist/frontend/`.
 2. `frontend`: copies `dist/frontend/browser/` into `backend/src/main/resources/static/`.
 3. `backend`: compiles, runs tests, and repackages everything as an executable jar.
 
@@ -84,7 +83,7 @@ The module order in the root `pom.xml` matters: `frontend` is listed before `bac
 Notes:
 
 - `backend/src/main/resources/static/` is generated output (git-ignored, removed by `mvn clean`). Don't edit it by hand.
-- The `ng` and `cp` executables must be on the `PATH` of the machine running Maven (macOS/Linux as written).
+- The `npm`, `npx` and `cp` executables must be on the `PATH` of the machine running Maven (macOS/Linux as written).
 
 ## Tests
 
@@ -112,7 +111,7 @@ cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
 
 ## Docker
 
-A single multi-stage `Dockerfile` at the repo root builds everything (JDK 25, Maven, Node 24, Angular CLI) and produces a small runtime image containing only the jar on a JRE:
+A single multi-stage `Dockerfile` at the repo root builds everything (JDK 25, Maven, Node 24) and produces a small runtime image containing only the jar on a JRE:
 
 ```bash
 docker build -t spring-angular-template .

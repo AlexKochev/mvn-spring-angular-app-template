@@ -1,14 +1,9 @@
-# Build stage: JDK 25 + Maven + Node 24 + Angular CLI (the Maven build runs `ng build`)
+# Build stage: JDK 25 + Maven + Node 24 (the Maven build runs `npm ci` and `ng build`)
 FROM maven:3-eclipse-temurin-25 AS build
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
-    && npm install -g @angular/cli@22 \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-
-# Install frontend dependencies first so this layer is cached until package files change
-COPY frontend/package.json frontend/package-lock.json frontend/
-RUN cd frontend && npm ci
 
 COPY pom.xml .
 COPY backend backend

@@ -43,6 +43,22 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.4.1</version>
         <executions>
+          <!-- Install the locked frontend dependencies (includes the Angular CLI) -->
+          <execution>
+            <id>npm-ci</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>.</workingDirectory>
+              <executable>npm</executable>
+              <arguments>
+                <argument>ci</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
           <execution>
             <id>angular-cli-build</id>
             <phase>generate-resources</phase>
@@ -51,8 +67,9 @@
             </goals>
             <configuration>
               <workingDirectory>.</workingDirectory>
-              <executable>ng</executable>
+              <executable>npx</executable>
               <arguments>
+                <argument>ng</argument>
                 <argument>build</argument>
                 <argument>--configuration</argument>
                 <argument>production</argument>
