@@ -19,7 +19,6 @@
         <java.version>25</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <spring-boot.version>4.1.2</spring-boot.version>
-        <lombok.version>1.18.48</lombok.version>
         <build.number>1.0-SNAPSHOT</build.number>
     </properties>
 

@@ -12,6 +12,8 @@
 
   <artifactId>frontend</artifactId>
   <name>frontend</name>
+  <!-- Only builds the Angular app; the output ships inside the backend jar, so there is no artifact of its own -->
+  <packaging>pom</packaging>
 
   <build>
     <plugins>

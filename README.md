@@ -10,7 +10,7 @@ The Angular app is compiled during the Maven build and packaged into the Spring 
 
 | Layer    | Technology                                   |
 |----------|----------------------------------------------|
-| Backend  | Java 25, Spring Boot 4.1 (Spring MVC), Lombok |
+| Backend  | Java 25, Spring Boot 4.1 (Spring MVC) |
 | Frontend | Angular 22, TypeScript 6.0, SCSS, SSR/prerender, Karma + Jasmine |
 | Build    | Maven (multi-module), npm / Angular CLI      |
 
@@ -137,7 +137,7 @@ cd frontend && npx ng test --watch=false --browsers=ChromeHeadless   # frontend
 
 ## Upgrading versions
 
-- **Java / Spring Boot / Lombok** are set as properties in the root `pom.xml` (`java.version`, `spring-boot.version`, `lombok.version`). Dependency versions come from the Spring Boot BOM, so the backend `pom.xml` mostly lists dependencies without versions.
+- **Java / Spring Boot** are set as properties in the root `pom.xml` (`java.version`, `spring-boot.version`). Dependency versions come from the Spring Boot BOM, so the backend `pom.xml` mostly lists dependencies without versions.
 - **Angular**: use `ng update @angular/core @angular/cli`, one major version at a time.
 - **TypeScript** must stay within the range the current Angular version supports (Angular 22 requires `>=6.0 <6.1`).
 
