@@ -16,15 +16,47 @@ The Angular app is compiled during the Maven build and packaged into the Spring 
 
 ## Prerequisites
 
-- **JDK 25**
+- **JDK 25** (the build checks this and fails with a clear message otherwise; `.java-version` records the required version)
 - **Maven 3.9+**
 - **Node.js 24 LTS** on your `PATH` (Angular 22 needs Node 22.22+ or 24.15+; older versions fail the build). With nvm: `nvm install 24 && nvm alias default 24`. No global Angular CLI is needed: the build uses the project's own copy.
 - Chrome, only if you run the frontend unit tests
+
+<details>
+<summary>Juggling several JDKs on macOS with zsh?</summary>
+
+Add this to `~/.zshrc` to switch `JAVA_HOME` automatically when you `cd` into a directory containing a `.java-version` file, and go back to your default elsewhere:
+
+```zsh
+typeset -g _DEFAULT_JAVA_HOME="${_DEFAULT_JAVA_HOME:-$JAVA_HOME}"
+_auto_java_home() {
+  local dir="$PWD" want="" home
+  while [[ -n "$dir" && "$dir" != "/" ]]; do
+    if [[ -f "$dir/.java-version" ]]; then want="$(<"$dir/.java-version")"; break; fi
+    dir="${dir:h}"
+  done
+  if [[ -n "$want" ]]; then
+    home="$(/usr/libexec/java_home -v "$want" 2>/dev/null)" || { print -u2 "No JDK matching .java-version ($want) installed"; return; }
+  else
+    home="$_DEFAULT_JAVA_HOME"
+  fi
+  [[ -z "$home" || "$home" == "$JAVA_HOME" ]] && return
+  path=("${(@)path:#$JAVA_HOME/bin}")
+  export JAVA_HOME="$home"
+  path=("$JAVA_HOME/bin" $path)
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd _auto_java_home
+_auto_java_home
+```
+
+Tools like [jenv](https://www.jenv.be/), [SDKMAN](https://sdkman.io/) and [mise](https://mise.jdx.dev/) can also do this.
+</details>
 
 ## Project layout
 
 ```
 .
+├── .java-version           Required JDK (read by CI and by the zsh hook above)
 ├── .github/workflows/      CI: build + tests on push/PR, plus a weekly scheduled build
 ├── Dockerfile              Multi-stage build -> runtime image with the single jar
 ├── pom.xml                 Parent POM: Java version, Spring Boot BOM, module list
